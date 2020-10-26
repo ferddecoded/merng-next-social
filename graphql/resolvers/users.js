@@ -87,7 +87,6 @@ module.exports = {
 
       const res = await newUser.save();
       const token = generateToken(res);
-
       return {
         // spread data of user, doc where document is stored
         ...res._doc,
