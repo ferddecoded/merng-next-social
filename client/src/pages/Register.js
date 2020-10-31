@@ -1,10 +1,12 @@
 import gql from "graphql-tag";
-import React from "react";
+import React, { useContext } from "react";
 import { Form, Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import { useForm } from "../utils/hooks";
+import { AuthContext } from "../context/Auth";
 
 const Register = ({ history }) => {
+  const context = useContext(AuthContext);
   const { onChange, onSubmit, values, errors, setErrors } = useForm(
     addUserCallback,
     {
@@ -17,7 +19,8 @@ const Register = ({ history }) => {
   // pass mutation and options
   // update is run when mutation is successful
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(proxy, result) {
+    update(proxy, { data: { register: userData } }) {
+      context.login(userData);
       history.push("/");
     },
     onError(err) {

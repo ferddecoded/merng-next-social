@@ -1,10 +1,12 @@
 import gql from "graphql-tag";
-import React from "react";
+import React, { useContext } from "react";
 import { Form, Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import { useForm } from "../utils/hooks";
+import { AuthContext } from "../context/Auth";
 
 const Login = ({ history }) => {
+  const context = useContext(AuthContext);
   // pass mutation and options
   // update is run when mutation is successful
   const { onChange, onSubmit, values, errors, setErrors } = useForm(
@@ -15,7 +17,8 @@ const Login = ({ history }) => {
     }
   );
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(proxy, result) {
+    update(proxy, { data: { login: userData } }) {
+      context.login(userData);
       history.push("/");
     },
     onError(err) {
@@ -24,6 +27,8 @@ const Login = ({ history }) => {
     variables: values,
   });
 
+  // we use function declaration here to hoist the function in useForm
+  // if we dont, itll throw a warning on how we are using a function before it is defined
   function loginUserCallback() {
     loginUser();
   }
@@ -72,6 +77,7 @@ const LOGIN_USER = gql`
       email
       createdAt
       token
+      username
     }
   }
 `;
