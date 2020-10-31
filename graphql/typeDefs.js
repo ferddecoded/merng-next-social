@@ -2,10 +2,28 @@ const gql = require("graphql-tag");
 
 // RE: RegisterInput (type) = given as an input to a resolver in order to return something for us
 
+// likeCount and Comment count is logic done on the server to give us the individual count of each
+// refer to resolvers/index
 module.exports = gql`
   type Post {
     id: ID!
     body: String!
+    createdAt: String!
+    username: String!
+    comments: [Comment]!
+    likes: [Like]!
+    likeCount: Int!
+    commentCount: Int!
+  }
+  type Comment {
+    id: ID!
+    createdAt: String!
+    username: String!
+    body: String!
+  }
+
+  type Like {
+    id: ID!
     createdAt: String!
     username: String!
   }
@@ -31,5 +49,11 @@ module.exports = gql`
     login(username: String!, password: String!): User!
     deletePost(postId: ID!): String!
     createPost(body: String!): Post!
+    createComment(postId: String!, body: String!): Post!
+    deleteComment(postId: ID!, commentId: ID!): Post!
+    likePost(postId: ID!): Post!
+  }
+  type Subscription {
+    newPost: Post!
   }
 `;
