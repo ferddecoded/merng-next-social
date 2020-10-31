@@ -30,7 +30,7 @@ const Home = () => {
 };
 
 const FETCH_POSTS_QUERY = gql`
-  {
+  query getPosts {
     getPosts {
       id
       body
