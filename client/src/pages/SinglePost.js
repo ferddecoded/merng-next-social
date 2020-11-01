@@ -9,6 +9,7 @@ import {
   Icon,
   Image,
   Label,
+  Popup,
 } from "semantic-ui-react";
 import moment from "moment";
 import { AuthContext } from "../context/Auth";
@@ -76,18 +77,24 @@ const SinglePost = (props) => {
               <hr />
               <Card.Content extra>
                 <LikeButton user={user} post={{ id, likeCount, likes }} />
-                <Button
-                  as="div"
-                  labelPosition="right"
-                  onClick={() => console.log("Comment on post")}
-                >
-                  <Button basic color="blue">
-                    <Icon name="comments" />
-                  </Button>
-                  <Label basic color="blue" pointing="left">
-                    {commentCount}
-                  </Label>
-                </Button>
+                <Popup
+                  content="Number of comments"
+                  inverted
+                  trigger={
+                    <Button
+                      as="div"
+                      labelPosition="right"
+                      onClick={() => console.log("Comment on post")}
+                    >
+                      <Button basic color="blue">
+                        <Icon name="comments" />
+                      </Button>
+                      <Label basic color="blue" pointing="left">
+                        {commentCount}
+                      </Label>
+                    </Button>
+                  }
+                />
                 {user && user.username === username && (
                   <DeleteButton postId={postId} callback={deletePostCallback} />
                 )}
@@ -163,7 +170,7 @@ const FETCH_POST_QUERY = gql`
 `;
 
 const CREATE_COMMENT = gql`
-  mutation createComment($postId: String!, $body: String!) {
+  mutation createComment($postId: ID!, $body: String!) {
     createComment(postId: $postId, body: $body) {
       id
       comments {
