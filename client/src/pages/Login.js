@@ -4,9 +4,12 @@ import { Form, Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import { useForm } from "../utils/hooks";
 import { AuthContext } from "../context/Auth";
+import { ViewportContext } from "../context/Viewport";
 
 const Login = ({ history }) => {
   const context = useContext(AuthContext);
+
+  const { mobile } = useContext(ViewportContext);
   // pass mutation and options
   // update is run when mutation is successful
   const { onChange, onSubmit, values, errors, setErrors } = useForm(
@@ -35,7 +38,12 @@ const Login = ({ history }) => {
 
   return (
     <div className="form-container">
-      <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
+      <Form
+        onSubmit={onSubmit}
+        noValidate
+        className={loading ? "loading" : ""}
+        style={{ width: "100%" }}
+      >
         <h1>Login</h1>
         <Form.Input
           label={"Username"}

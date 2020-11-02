@@ -10,19 +10,22 @@ import "semantic-ui-css/semantic.min.css";
 import "./App.css";
 import { Container } from "semantic-ui-react";
 import { AuthRoute } from "./utils/AuthRoute";
+import { ViewportProvider } from "./context/Viewport";
 
 function App() {
   return (
     <AuthProvider>
-      <Container>
-        <Router>
-          <MenuBar />
-          <Route exact path="/" component={Home} />
-          <AuthRoute exact path="/login" component={Login} />
-          <AuthRoute exact path="/register" component={Register} />
-          <Route exact path="/posts/:postId" component={SinglePost} />
-        </Router>
-      </Container>
+      <ViewportProvider>
+        <Container>
+          <Router>
+            <MenuBar />
+            <Route exact path="/" component={Home} />
+            <AuthRoute exact path="/login" component={Login} />
+            <AuthRoute exact path="/register" component={Register} />
+            <Route exact path="/posts/:postId" component={SinglePost} />
+          </Router>
+        </Container>
+      </ViewportProvider>
     </AuthProvider>
   );
 }

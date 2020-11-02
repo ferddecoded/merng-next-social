@@ -6,20 +6,22 @@ import { FETCH_POSTS_QUERY } from "../utils/graphql";
 import PostCard from "../components/PostCard";
 import PostForm from "../components/PostForm";
 import { AuthContext } from "../context/Auth";
+import { ViewportContext } from "../context/Viewport";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
+  const { mobile } = useContext(ViewportContext);
   const { loading, data: { getPosts: posts } = {} } = useQuery(
     FETCH_POSTS_QUERY
   );
   return (
-    <Grid columns={3}>
+    <Grid columns={mobile ? 1 : 3}>
       <Grid.Row className="page-title">
         <h1>Recent Posts</h1>
       </Grid.Row>
       <Grid.Row>
         {user && (
-          <Grid.Column>
+          <Grid.Column style={{ marginBottom: 20 }}>
             <PostForm />
           </Grid.Column>
         )}

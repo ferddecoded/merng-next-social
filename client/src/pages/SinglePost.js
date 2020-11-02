@@ -15,11 +15,13 @@ import moment from "moment";
 import { AuthContext } from "../context/Auth";
 import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
+import { ViewportContext } from "../context/Viewport";
 
 const SinglePost = (props) => {
   const postId = props.match.params.postId;
 
   const { user } = useContext(AuthContext);
+  const { mobile } = useContext(ViewportContext);
   const commentInputRef = useRef();
   const [comment, setComment] = useState("");
   const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
@@ -67,7 +69,7 @@ const SinglePost = (props) => {
               float="right"
             />
           </Grid.Column>
-          <Grid.Column width={10}>
+          <Grid.Column width={mobile ? 14 : 10}>
             <Card fluid>
               <Card.Content>
                 <Card.Header>{username}</Card.Header>
